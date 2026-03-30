@@ -1,0 +1,7 @@
+myvenv/
+
+./src
+*.pyc
+__pycache__
+
+./vectorstore
