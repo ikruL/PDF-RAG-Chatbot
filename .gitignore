@@ -5,3 +5,6 @@ myvenv/
 __pycache__
 
 ./vectorstore
+
+
+.env    
