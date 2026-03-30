@@ -5,6 +5,9 @@ from src.agent_graph import create_agent_graph
 from src.tools import create_retriever_tool
 from src.retriever import build_vectorstore, create_retriever
 from src.embeddings import get_embeddings
+from dotenv import load_dotenv
+
+load_dotenv()  # Load environment variables from .env file
 
 if "vectorstore" not in st.session_state:
     st.session_state.vectorstore = None
