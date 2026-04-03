@@ -1,3 +1,4 @@
+import uuid
 import streamlit as st
 from src.loader import load_pdfs
 from langchain_core.messages import HumanMessage
@@ -55,7 +56,8 @@ if st.button("Load PDF Files", type="primary"):
     with st.spinner("Processing..."):
         docs = load_pdfs(uploaded_files)
         embeddings = get_embeddings(gemini_api_key)
-        vectorstore = build_vectorstore(docs, embeddings)
+        vectorstore = build_vectorstore(
+            docs, embeddings)
         retriever = create_retriever(vectorstore)
         retriever_tool = create_retriever_tool(retriever)
 

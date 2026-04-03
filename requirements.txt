@@ -7,3 +7,5 @@ langchain_chroma
 langchain_google_genai
 langchain_text_splitters
 pypdf
+datasets
+ragas   

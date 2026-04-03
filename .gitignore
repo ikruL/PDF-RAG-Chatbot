@@ -1,10 +1,12 @@
-myvenv/
+rag_env/
 
 ./src
 *.pyc
 __pycache__
 
-./vectorstore
+vectorstore/
 
+tests/
 
 .env    
+
