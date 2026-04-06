@@ -3,7 +3,6 @@ from src.config import config
 from langchain_chroma import Chroma
 
 
-@st.cache_resource
 def build_vectorstore(_docs, _embeddings):
     """Builds the vectorstore from the documents and embeddings"""
     try:
