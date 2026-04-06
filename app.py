@@ -1,12 +1,12 @@
-import uuid
+
 import streamlit as st
-from src.loader import load_pdfs
+from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage
-from src.agent_graph import create_agent_graph
+from src.loader import load_pdfs
 from src.tools import create_retriever_tool
 from src.retriever import build_vectorstore, create_retriever
 from src.embeddings import get_embeddings
-from dotenv import load_dotenv
+from src.agent_graph import create_agent_graph
 
 load_dotenv()  # Load environment variables from .env file
 
@@ -43,6 +43,21 @@ with st.sidebar:
 uploaded_files = st.file_uploader(
     "Upload PDF Files", type="pdf", accept_multiple_files=True)
 
+if uploaded_files:
+    current_files = [f.name for f in uploaded_files]
+
+    if "last_uploaded" not in st.session_state:
+        st.session_state.last_uploaded = current_files
+
+    elif st.session_state.last_uploaded != current_files:
+        st.session_state.vectorstore = None
+        st.session_state.retriever_tool = None
+        st.session_state.ready = False
+        st.session_state.messages = []
+
+        st.session_state.last_uploaded = current_files
+
+
 if st.button("Load PDF Files", type="primary"):
     api_key = st.session_state.get("gemini_api_key")
     if not api_key:
@@ -66,6 +81,7 @@ if st.button("Load PDF Files", type="primary"):
         st.session_state.ready = True
 
     st.success("Documents processed!")
+    print("Docs sample:", docs[0].page_content[:200])
 
 
 def format_response(response):
@@ -111,7 +127,7 @@ else:
             messages = [HumanMessage(content=user_input)]
             retriever_tool = st.session_state.get("retriever_tool")
             graph = create_agent_graph(
-                gemini_api_key, max_tokens=max_tokens, tools=[retriever_tool])
+                api_key, max_tokens=max_tokens, tools=[retriever_tool])
             with st.spinner("Thinking..."):
                 response = graph.invoke(
                     {"messages": messages})
