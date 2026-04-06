@@ -3,11 +3,11 @@ from src.config import config
 from langchain_chroma import Chroma
 
 
-def build_vectorstore(_docs, _embeddings):
+def build_vectorstore(docs, embeddings):
     """Builds the vectorstore from the documents and embeddings"""
     try:
         vectorstore = Chroma.from_documents(
-            documents=_docs, embedding=_embeddings)
+            documents=docs, embedding=embeddings)
         return vectorstore
     except Exception as e:
         print(f"Error setting up ChromaDB : str{e}")
